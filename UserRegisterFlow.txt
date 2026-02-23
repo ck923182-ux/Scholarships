@@ -36,3 +36,13 @@ app/Http/Requests/UserRegisterRequest.ph
 
 STEP 7 added in route in path 
  routes/web.php
+
+
+User register 
+user Login 
+User updated the Profile 
+user reset password functionality done 
+
+Phase 1 done user register 
+Phase 2 Create a Community Chair and Community member 
+Phase 2 Create a Scholarship
