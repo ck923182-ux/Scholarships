@@ -1,0 +1,48 @@
+LARAVEL USER REGISTER & LOGIN IMPLEMENTATION GUIDE
+Project Overview
+
+This project implements basic User Registration and Login functionality using Laravel and Bootstrap.
+Authentication scaffolding is generated using Laravel UI, and validation is handled using a separate Form Request class (clean code approach
+
+STEP 1: Install Laravel UI Package
+Laravel UI provides authentication scaffolding with Bootstrap.
+Run:
+composer require laravel/ui
+
+STEP 2: Generate Bootstrap Authentication Scaffolding
+Generate authentication views and controllers:
+php artisan ui bootstrap --auth
+
+This command generates:
+Login & Register Controllers
+Authentication routes
+Blade views (login, register, password reset)
+Bootstrap frontend layout
+
+STEP 3: Install Node Dependencies
+Install frontend packages and compile assets:
+npm install
+npm run dev
+
+STEP 5: Create UserController
+Create controller:
+php artisan make:controller UserController
+
+STEP 6: Create Form Request for Validation (Recommended)
+Create a validation request class:
+php artisan make:request UserRegisterRequest
+File location:
+app/Http/Requests/UserRegisterRequest.ph
+
+STEP 7 added in route in path 
+ routes/web.php
+
+
+User register 
+user Login 
+User updated the Profile 
+user reset password functionality done 
+
+Phase 1 done user register 
+Phase 2 Create a Community Chair and Community member 
+Phase 2 Create a Scholarship
