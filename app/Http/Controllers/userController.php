@@ -42,8 +42,16 @@ class userController extends Controller
     {
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            return redirect()->intended(route('profile'));
         }
         return redirect('/login')->with('error', 'Invalid credentials. Please try again.');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login')->with('status', 'Logged out successfully.');
     }
 }
