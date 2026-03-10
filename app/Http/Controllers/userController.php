@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\userRegisterValidation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Enums\UserRole;
+
 
 
 
@@ -37,15 +39,26 @@ class userController extends Controller
     {
         return view('auth.login');
     }
-
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+
         if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('profile'));
+            // Authentication successful
+            $request->session()->regenerate();
+            $user = Auth::user();
+
+            if ($user->role === UserRole::ADMIN) { // Use the enum case directly for strict comparison
+                return redirect()->intended(route('admin.dashboard'));
+            } else {
+                return redirect()->intended(route('profile'));
+            }
         }
+
+        // Authentication failed
         return redirect('/login')->with('error', 'Invalid credentials. Please try again.');
     }
+
 
     public function logout(Request $request)
     {

@@ -4,9 +4,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CommunityChair;
+use App\Http\Controllers\CommunityMemberController;
+use App\Http\Controllers\PresidnetController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Admin\AdminDashboardController;
+
 
 
 Route::get('/', function () {
@@ -25,7 +30,57 @@ Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showRese
 Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update');
 
 // Auth::routes();
+Route::middleware(['auth', 'student'])->group(function () {
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile')->middleware('auth');
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile')->middleware('auth');
+
+
+});
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/profile', [ProfileController::class, 'show'])->name('profile')->middleware('auth');
-Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
-Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+// Community Register 
+// Route::get('/chair-register', [CommunityChair::class, 'communityChairRegistration']);
+// Route::post('/chairregister', [CommunityChair::class, 'chairregister'])->name('chairregister');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Display all Community Chair
+    Route::get('/admin/chair', [CommunityChair::class, 'index'])
+        ->name('chair'); // THIS IS THE KEY
+
+        // Community Chair Rgister form 
+    Route::get('/admin/chair-register', [CommunityChair::class, 'create'])
+        ->name('chair-register'); // THIS IS THE KEY
+
+    // Define the POST submission route (if needed, adjust name if necessary)
+    Route::post('/admin/chair-register', [CommunityChair::class, 'store'])
+        ->name('chair-register.post');
+
+    Route::get('/admin/chair/{user}/edit', [CommunityChair::class, 'edit'])->name('chair.edit');
+    Route::put('/admin/chair/{user}', [CommunityChair::class, 'update'])->name('chair.update');
+    Route::delete('/admin/chair/{user}', [CommunityChair::class, 'destroy'])->name('chair.destroy');
+
+
+
+    Route::get('admin/member',[CommunityMemberController::class,'index'])
+    ->name('member');
+
+    Route::get('/admin/member-register', [CommunityMemberController::class, 'create'])
+        ->name('member-register'); // THIS IS THE KEY
+
+    // Define the POST submission route (if needed, adjust name if necessary)
+    Route::post('/admin/member-register', [CommunityMemberController::class, 'store'])
+        ->name('member-register.post');
+
+    Route::get('/admin/member/{user}/edit', [CommunityMemberController::class, 'edit'])->name('member.edit');
+    Route::put('/admin/member/{user}', [CommunityMemberController::class, 'update'])->name('member.update');
+    Route::delete('/admin/member/{user}', [CommunityMemberController::class, 'destroy'])->name('member.destroy');
+
+
+    Route::get('/admin/presidnet', [PresidnetController::class, 'index'])
+        ->name('presidnet'); // THIS IS THE KEY
+    // Add other admin-only routes here
+});

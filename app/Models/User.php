@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Enums\UserRole;
 
 class User extends Authenticatable
 {
@@ -15,6 +16,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Must be fillable
+
     ];
 
     protected $hidden = [
@@ -25,6 +28,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'role' => UserRole::class,
     ];
 
     public function profile()

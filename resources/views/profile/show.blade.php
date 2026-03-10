@@ -41,13 +41,17 @@
 
                                 @php
                                     $profile = $user->profile;
+                                    // dd($user);
                                 @endphp
                                 @php
+                                 if($user->role==="student"){
                                     $state = \App\Enums\State::tryFrom($profile->state);
                                     $high_school = \App\Enums\HighSchool::tryFrom($profile->high_school);
 
+                                 }
+
                                 @endphp
-                                @if ($profile)
+                                @if ($user)
                                     <!-- Contact Information -->
                                     <div class="card shadow-sm mb-4">
                                         <div class="card-header bg-light fw-bold">
@@ -111,7 +115,8 @@
                                         <div class="card-body row">
                                             <div class="col-md-6 mb-3">
                                                 <label class="fw-semibold">High School</label>
-                                                @if ($profile->high_school === 'OT')
+                                                 @if ($user->role==="student")
+                                                     @if ($profile->high_school === 'OT')
                                                     <div> {{ $profile->other_high_school }}</div>
                                                 @else
                                                     <div>
@@ -119,6 +124,8 @@
 
                                                     </div>
                                                 @endif
+                                                 @endif
+                                                
 
                                             </div>
                                             <div class="col-md-6 mb-3">
