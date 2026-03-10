@@ -22,8 +22,8 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                <a class="navbar-brand demo " href="{{ url('/') }}">
+                    Rotra Scholarhip
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -52,34 +52,52 @@
                                     <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
-                        @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('profile') }}">Profile</a>
-                            </li>
+                        @else 
+                            <?php 
+                            //  use App\Enums\UserRole; // Import the enum
+                            $user_pro = Auth::user()->role;
+                            $name = $user_pro->value;
+                            // dd($user_pro);
+                            // dd($name);
+ ?>
+                            @if (Auth::check() && $name ==="admin")
+                                <li class="nav-item">
+                                    <a class="nav-link studentprofile" href="{{ route('dashboard') }}">Dashoborad</a>
+                                </li>
+                            @endif
+                            @if (Auth::check() && $name ==="student")
+                                <li class="nav-item">
+                                    <a class="nav-link studentprofile" href="{{ route('profile') }}">My Account</a>
+                                </li>
+                            @endif
+                            @if (Auth::check() && $name ==="community-chair")
+                                <li class="nav-item">
+                                    <a class="nav-link studentprofile" href="#">Dashoborad</a>
+                                </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}
                                 </a>
-
                                 <div class="dropdown-menu dropdown-menu-end px-5" aria-labelledby="navbarDropdown">
-                            
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="nav-link btn btn-link p-0">Logout</button>
-                                </form>
-                            
-                    </div>
-                    </li>
-                @endguest
-                </ul>
-            </div>
-    </div>
-    </nav>
 
-    <main class="py-4">
-        @yield('content')
-    </main>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="nav-link btn btn-link p-0">Logout</button>
+                                    </form>
+
+                                </div>
+                            </li>
+                        @endguest
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="py-4">
+            @yield('content')
+        </main>
     </div>
 </body>
 
