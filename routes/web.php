@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CommunityChair;
 use App\Http\Controllers\CommunityMemberController;
 use App\Http\Controllers\PresidnetController;
+use App\Http\Controllers\VicePresident;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Auth;
@@ -82,5 +83,28 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/presidnet', [PresidnetController::class, 'index'])
         ->name('presidnet'); // THIS IS THE KEY
+          Route::get('/admin/presidnet-register', [PresidnetController::class, 'create'])
+        ->name('presidnet-register'); // THIS IS THE KEY
+         Route::post('/admin/presidnet-register', [PresidnetController::class, 'store'])
+        ->name('presidnet-register.post');
+         Route::get('/admin/presidnet/{user}/edit', [PresidnetController::class, 'edit'])
+        ->name('presidnet.edit');
+         Route::put('/admin/presidnet/{user}', [PresidnetController::class, 'update'])
+        ->name('presidnet.update');
+        Route::delete('/admin/presidnet/{user}', [PresidnetController::class, 'destroy'])->name('presidnet.destroy');
+
+
+        Route::get('/admin/vice-president', [VicePresident::class,'index'])->name('vicepresident');
+        Route::get('/admin/vicepresident-register', [VicePresident::class,'create'])->name('vicepresident-register');
+        Route::post('/admin/vicepresident-register', [VicePresident::class,'store'])->name('vicepresident-register');
+        Route::get('/admin/vicepresident/{user}/edit', [VicePresident::class,'edit'])
+        ->name('vicepresident.edit');
+        Route::put('/admin/vicepresident/{user}', [VicePresident::class,'update'])
+        ->name('vicepresident.update');
+        Route::delete('/admin/vicepresident/{user}', [VicePresident::class, 'destroy'])->name('vicepresident.destroy');
+
+
+
     // Add other admin-only routes here
+
 });
