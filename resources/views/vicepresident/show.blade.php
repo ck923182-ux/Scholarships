@@ -4,7 +4,7 @@
 <div class="container py-4">
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h3 class="mb-0">President</h3>
-        <a href="{{ route('presidnet-register') }}" class="btn btn-primary">Add President Chair</a>
+        <a href="{{ route('vicepresident-register') }}" class="btn btn-primary">Add Vice President</a>
     </div>
 
     @if (session('success'))
@@ -41,12 +41,12 @@
                                 <td><span class="text-muted">{{ $u->email }}</span></td>
                                 <td>{{ optional($u->created_at)->format('M d, Y') }}</td>
                                 <td class="text-end">
-                                    <a href="{{ route('presidnet.edit', $u) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                    <form action="{{ route('presidnet.destroy', $u) }}" method="POST" class="d-inline">
+                                    <a href="{{ route('vicepresident.edit', $u) }}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                    <form action="{{ route('vicepresident.destroy', $u) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-outline-danger"
-                                            onclick="return confirm('Delete this Presidnet?')">Delete</button>
+                                            onclick="return confirm('Delete this Vice Presidnet?')">Delete</button>
                                     </form>
                                 </td>
                             </tr>

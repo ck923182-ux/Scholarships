@@ -18,7 +18,7 @@
         <div class="col-lg-8">
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('presidnet.update', $user) }}">
+                    <form method="POST" action="{{ route('vicepresident.update', $user) }}">
                         @csrf
                         @method('PUT')
 

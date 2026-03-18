@@ -4,23 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Enums\UserRole;
+use Psy\Command\WhereamiCommand;
 use App\Models\User;
-use App\Http\Requests\StorePresidentRequest;
-use App\Http\Requests\UpdatePresidentRequest;
+use App\Enums\UserRole;
 use Illuminate\Support\Facades\Hash;
 
+use App\Http\Requests\StoreVicePresidentRequest;
+use App\Http\Requests\UpdateVicePresidnetRequest;
 
-
-class PresidnetController extends Controller
+class VicePresident extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::where('role', 'president')->get();
-        return view('president.show', compact('users'));
+        $users = User::where('role', 'vice-president')->get();
+        return view('vicepresident.show', compact('users'));
     }
 
     /**
@@ -28,67 +28,68 @@ class PresidnetController extends Controller
      */
     public function create()
     {
-        return view('president.create');
+        return view('vicepresident.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePresidentRequest $request)
+    public function store(StoreVicePresidentRequest $request)
     {
         $validated = $request->validated();
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
-            'role' => UserRole::PRESIDENT->value,
+            'role' => UserRole::VICE_PRESIDENT->value,
         ]);
-        $user->assignRole(UserRole::PRESIDENT->value);
-        return redirect()->back()->with('success', 'Registration successful! The Presidnet has been created.');
+        $user->assignRole(UserRole::VICE_PRESIDENT->value);
+        return redirect()->back()->with('success', 'Registration successful! The Vice Presidnet has been created.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $user) {}
+    public function show(string $id)
+    {
+        //
+    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(User $user)
     {
-        // Rename variable to $user for clarity
-
-        if ($user->role !== UserRole::PRESIDENT) {
+        if ($user->role !== UserRole::VICE_PRESIDENT) {
             abort(403, 'Unauthorized');
         }
 
-        return view('president.edit', ['User' => $user, 'user' => $user]);
+        return view('vicepresident.edit', ['User' => $user, 'user' => $user]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePresidentRequest $request, User $user)
+    public function update(UpdateVicePresidnetRequest $request, User $user)
     {
         $data = $request->validated();
         $update = [
             'name' => $data['name'],
             'email' => $data['email'],
-            'role' => UserRole::PRESIDENT->value,
+            'role' => UserRole::VICE_PRESIDENT->value,
         ];
         if (!empty($data['password'])) {
             $update['password'] = Hash::make($data['password']);
         }
         $user->update($update);
 
-        return redirect()->back()->with('success', 'Registration successful! The Presidnet has been created.');
+        return redirect()->back()->with('success', 'Registration successful! The Vice Presidnet has been created.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(user $user)
+    public function destroy(User $user)
     {
         $user->delete();
 
