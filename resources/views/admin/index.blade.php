@@ -21,7 +21,7 @@
                     <ul class="nav flex-column">
                         <!-- Manage Users -->
                         <li class="nav-item mb-2">
-                            <a href="#" class="nav-link text-white">
+                            <a href="{{ route('admin.manage-users') }}" class="nav-link text-white">
                                 Manage Users
                             </a>
                         </li>
@@ -45,18 +45,23 @@
                                             Committee Member
                                         </a>
                                     </li>
-
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link text-white">
+                                        <a href="{{ route('presidnet') }}" class="nav-link text-white">
                                             President
                                         </a>
                                     </li>
-
                                     <li class="nav-item">
+                                        <a href="{{ route('vicepresident') }}" class="nav-link text-white">
+                                           Vice  President
+                                        </a>
+                                    </li>
+                                   
+
+                                    {{-- <li class="nav-item">
                                         <a href="#" class="nav-link text-white">
                                             Student
                                         </a>
-                                    </li>
+                                    </li> --}}
 
                                 </ul>
                             </div>

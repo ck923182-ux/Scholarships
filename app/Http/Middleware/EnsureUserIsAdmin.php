@@ -19,7 +19,8 @@ class EnsureUserIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         // Check if user is authenticated and has the ADMIN role
-        if (Auth::check() && Auth::user()->role === UserRole::ADMIN) {
+        // OR if they are currently impersonating a user (original_admin_id exists in session)
+        if (Auth::check() && (Auth::user()->role === UserRole::ADMIN || session()->has('original_admin_id'))) {
             return $next($request);
         }
 

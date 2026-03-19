@@ -21,13 +21,26 @@ class UserProfile
     public function handle(Request $request, Closure $next): Response
     {
         
-      // Check if user is authenticated and has the ADMIN role
+      // Check if user is authenticated and has the STUDENT role
         if (Auth::check() && Auth::user()->role === UserRole::STUDENT) {
             return $next($request);
         }
 
-        // If not an admin, redirect or abort with a 403 Forbidden error
-        abort(403, 'Sorry only Studnet Can updated the our profile.');
+        // If it's an admin or impersonating admin, allow access to view profiles
+        if (Auth::check() && (Auth::user()->role === UserRole::ADMIN || session()->has('original_admin_id'))) {
+            return $next($request);
+        }
+
+        // Redirect based on role if they shouldn't be here
+        if (Auth::check()) {
+            $role = Auth::user()->role;
+            if (in_array($role, [UserRole::COMMUNITY_CHAIR, UserRole::COMMUNITY_MEMBER, UserRole::PRESIDENT, UserRole::VICE_PRESIDENT])) {
+                return redirect()->route('committee.dashboard')->with('error', 'Only students can access profile management.');
+            }
+        }
+
+        // Default fallback
+        abort(403, 'Sorry only Student Can update their profile.');
     }
 
 }

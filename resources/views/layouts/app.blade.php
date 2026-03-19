@@ -20,6 +20,20 @@
 
 <body>
     <div id="app">
+        @if(session('original_admin_id'))
+            <div class="bg-warning text-dark text-center py-2 shadow-sm sticky-top">
+                <div class="container d-flex justify-content-between align-items-center">
+                    <span>
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        You are currently impersonating <strong>{{ Auth::user()->name }}</strong>.
+                    </span>
+                    <a href="{{ route('admin.stop-impersonating') }}" class="btn btn-sm btn-dark">
+                        <i class="bi bi-arrow-left-circle me-1"></i> Back to Admin
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand demo " href="{{ url('/') }}">
@@ -72,7 +86,12 @@
                             @endif
                             @if (Auth::check() && $name ==="community-chair")
                                 <li class="nav-item">
-                                    <a class="nav-link studentprofile" href="#">Dashoborad</a>
+                                    <a class="nav-link studentprofile" href="{{ route('committee.dashboard') }}">Dashoborad</a>
+                                </li>
+                            @endif
+                            @if (Auth::check() && in_array($name, ['community-member', 'president', 'vice-president']))
+                                <li class="nav-item">
+                                    <a class="nav-link studentprofile" href="{{ route('committee.dashboard') }}">Dashboard</a>
                                 </li>
                             @endif
                             <li class="nav-item dropdown">

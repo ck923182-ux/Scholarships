@@ -12,7 +12,8 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Admin\AdminDashboardController;
-
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\CommitteeDashboardController;
 
 
 Route::get('/', function () {
@@ -38,6 +39,11 @@ Route::middleware(['auth', 'student'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile')->middleware('auth');
 
 
+});
+
+// Committee Dashboard Routes (Chair, Member, President, Vice President)
+Route::middleware(['auth'])->group(function () {
+    Route::get('/committee/dashboard', [CommitteeDashboardController::class, 'index'])->name('committee.dashboard');
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
@@ -104,6 +110,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
         Route::delete('/admin/vicepresident/{user}', [VicePresident::class, 'destroy'])->name('vicepresident.destroy');
 
 
+
+    // Manage Users
+    Route::get('/admin/manage-user', [AdminUserController::class, 'index'])->name('admin.manage-users');
+    Route::get('/admin/impersonate/{user}', [AdminUserController::class, 'impersonate'])->name('admin.impersonate');
+    Route::get('/admin/stop-impersonating', [AdminUserController::class, 'stopImpersonating'])->name('admin.stop-impersonating');
 
     // Add other admin-only routes here
 
